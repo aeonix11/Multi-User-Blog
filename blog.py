@@ -392,7 +392,7 @@ class EditComment(BlogHandler):
     def get(self, post_id, comment_id):
 
         comment = Comments.get_by_id(int(comment_id))
-    
+
         if comment:
 
             if comment.author == self.user.name:
