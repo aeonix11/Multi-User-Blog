@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {{post.render() | safe}}
+<h4>Likes = {{likes}}</h4>
+{% if not user.name == post.author %}
+    <a href="/blog/{{post.key().id()}}/Like/">Like</a> |
+    <a href="/blog/{{post.key().id()}}/Unlike">Unlike</a>
+{% endif %}
+{% if post.author == user.name %}
+  <a href="/blog/{{post.key().id()}}/editpost/">edit</a> |
+  <a href="/blog/{{post.key().id()}}/Deletepost">delete</a>
+{% endif %}
+<h1>Comments:</h1>
+
+  {% for comment in comments %}
+  <hr>
+    {{comment.author}} :
+    {{comment.comment}}
+    {{comment.created.strftime("%b %d, %Y")}}
+  <br>
+
+
+<hr>
+    {% if comment.author == user.name %}
+      <a href="/blog/{{post.key().id()}}/editcomment/{{comment.key().id()}}">edit</a> |
+      <a href="/blog/{{post.key().id()}}/deletecomment/{{comment.key().id()}}">delete</a>
+    {% endif %}
+  {% endfor %}
+
+<h2>Comment</h2>
+  <form method="post" name="comments">
+    <textarea name="comment" rows="4" cols="50"></textarea>
+    <input type="submit" name="submit" value="Submit">
+    <div class="error">{{error}}</div>
+  </form>
+
+{% endblock %}
